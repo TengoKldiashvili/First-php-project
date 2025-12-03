@@ -1,2 +1,3 @@
-# First-php-project-
-PHP &amp; MySQL &amp; HTML/CSS &amp; JAVASCRIPT
+# Web project
+
+This is my project created using HTML,CSS,JAVASCRIPT,PHP AND MYSQL.
