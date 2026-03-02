@@ -2,3 +2,4 @@ db/connect.php
 src/imgs/posts/
 .vscode/
 .idea/
+.DS_Store
