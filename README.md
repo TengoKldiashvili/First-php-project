@@ -66,7 +66,7 @@ Open your browser and navigate to http://localhost/first-php-project/.
 🔐 Default Admin Credentials
 To access the /admin dashboard for testing purposes, use the following credentials (provided in the SQL dump):
 
-Email: admin@gmail.com
+Email: admin@example.com
 
 Password: admin
 
