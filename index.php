@@ -63,7 +63,7 @@ session_start();
 
 <div class="blackcontainer">
 <div class="endcontainer">
-<span>2025 © Tengo kldiashvili</span>
+<span>2026 © Tlab</span>
 <a style="color:#1da1f2" href="?contact">კონტაქტი</a>
 <a href="">სარედაქციო გუნდი</a>
 </div>

@@ -268,7 +268,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `username`, `password`, `reg_date`, `is_admin`) VALUES
-(1, 'testuser@example.com', 'testuser', 'testpassword', '2025-01-20 00:00:00', 0);
+(1, 'admin@example.com', 'admin', 'admin', '2025-01-20 00:00:00', 0);
 
 --
 -- Indexes for dumped tables
