@@ -14,7 +14,7 @@
 
 .intopheader {
     margin: auto;
-    width: 75%;
+    width: 55%;
     height: 27px;
     display: flex;
     align-items: center;
@@ -46,7 +46,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 75%;
+    width: 55%;
     margin: auto;
 }
 
@@ -86,7 +86,7 @@
 .navheader nav {
     height: 20px;
     margin: auto;
-    width: 75%;
+    width: 55%;
 }
 
 .navheader ul {
@@ -164,7 +164,7 @@
 /* POSTS-top-Header */
 .posts {
     display: grid;
-    width: 75%;
+    width: 55%;
     height: 450px;
     margin: auto;
     grid-template-columns: 2fr 1fr 1fr;
@@ -215,7 +215,7 @@
 /* POSTS--nav */
 .nav_posts {
     display: grid;
-    width: 75%;
+    width: 55%;
     height: 450px;
     margin: auto;
     grid-template-columns: 2fr 1fr 1fr;
@@ -280,7 +280,7 @@
 /* content posts navigaiton */
 
 .posts_navstitle {
-    width: 75%;
+    width: 55%;
     margin: auto;
     margin-top: 15px;
 }
@@ -301,7 +301,7 @@
 .posts_content {
     display: flex;
     justify-content: space-between;
-    width: 75%;
+    width: 55%;
     margin: 0 auto;
     margin-top: 30px;
 }
@@ -337,13 +337,16 @@
 }
 
 .most-read {
-    flex: 0 0 35%;
+    flex: 0 0 25%;
     position: sticky;
     top: 10px;
     height: fit-content;
     overflow-y: auto;
     z-index: 10;
 
+}
+.main_of_categories{
+     flex: 75% 0 0;
 }
 
 @media only screen and (max-width: 760px) {
@@ -475,7 +478,7 @@
 
 /* content */
 .post_container {
-    width: 75%;
+    width: 55%;
     margin: auto;
     display: flex;
     flex-direction: row;
@@ -686,7 +689,7 @@
 
 /* main content */
 .rightside_main {
-    width: 75%;
+    width: 55%;
     margin: auto;
     display: flex;
     margin-top: 20px;
@@ -770,7 +773,7 @@ span {
 
 /* OTHER CATEGORIES */
 .other_categories {
-    width: 75%;
+    width: 55%;
     margin: auto;
     display: flex;
     flex-wrap: wrap;
@@ -840,7 +843,7 @@ span {
 .endcontainer {
     margin-top: 70px;
     margin-bottom: 20px;
-    width: 75%;
+    width: 55%;
     margin: auto;
     display: flex;
     justify-content: space-between;
@@ -978,7 +981,7 @@ span {
 }
 
 .custom-login-form {
-    width: 75%;
+    width: 55%;
     max-width: 400px;
     padding: 20px;
     border-radius: 8px;
@@ -1056,7 +1059,7 @@ span {
 }
 
 .custom-register-form {
-    width: 75%;
+    width: 55%;
     max-width: 500px;
     padding: 20px;
     border-radius: 8px;
