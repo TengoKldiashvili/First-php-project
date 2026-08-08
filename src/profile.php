@@ -1,5 +1,4 @@
 <?php
-session_start();
 if (!isset($_SESSION['user_id'])) {
     header("Location: ?login");
     exit();
@@ -13,20 +12,36 @@ $user = mysqli_fetch_assoc($res);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $email = $_POST['email'];
-    $password = $_POST['password'];
+    $old_password = $_POST['old_password'];
+    $new_password = $_POST['new_password'];
+    $password_confirm = $_POST['password_confirm'];
 
     $update_query = "UPDATE users SET username='$username', email='$email'";
-    if (!empty($password)) {
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $update_query .= ", password='$hashed_password'";
-    }
-    $update_query .= " WHERE id='$user_id'";
 
-    if (mysqli_query($connect, $update_query)) {
-        $_SESSION['username'] = $username;
-        $success_message = "Your profile has been updated successfully!";
-    } else {
-        $error_message = "Error updating profile. Please try again.";
+    if (!empty($old_password) || !empty($new_password) || !empty($password_confirm)) {
+        if (empty($old_password) || empty($new_password) || empty($password_confirm)) {
+            $error_message = "პაროლის შესაცვლელად შეავსეთ სამივე ველი!";
+        } elseif (!password_verify($old_password, $user['password'])) {
+            $error_message = "ძველი პაროლი არასწორია!";
+        } elseif ($new_password !== $password_confirm) {
+            $error_message = "ახალი პაროლები ერთმანეთს არ ემთხვევა!";
+        } elseif (strlen($new_password) < 6) {
+            $error_message = "ახალი პაროლი უნდა შეიცავდეს მინიმუმ 6 სიმბოლოს!";
+        } else {
+            $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+            $update_query .= ", password='$hashed_password'";
+        }
+    }
+
+    if (!isset($error_message)) {
+        $update_query .= " WHERE id='$user_id'";
+
+        if (mysqli_query($connect, $update_query)) {
+            $_SESSION['username'] = $username;
+            $success_message = "პროფილი წარმატებით განახლდა!";
+        } else {
+            $error_message = "პროფილის განახლებისას შეცდომა მოხდა.";
+        }
     }
 }
 ?>
@@ -48,8 +63,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <input type="email" name="email" id="email" value="<?= htmlspecialchars($user['email']) ?>" required>
                 </div>
                 <div class="custom-form-group">
-                    <label for="password">ახალი პაროლი (არასავალდებულო)</label>
-                    <input type="password" name="password" id="password" placeholder="შეიყვანეთ ახალი პაროლი">
+                    <label for="old_password">ძველი პაროლი (სავალდებულოა პაროლის შეცვლისას)</label>
+                    <input type="password" name="old_password" id="old_password" placeholder="შეიყვანეთ ძველი პაროლი">
+                </div>
+                <div class="custom-form-group">
+                    <label for="new_password">ახალი პაროლი</label>
+                    <input type="password" name="new_password" id="new_password" minlength="6" placeholder="შეიყვანეთ ახალი პაროლი">
+                </div>
+                <div class="custom-form-group">
+                    <label for="password_confirm">გაიმეორეთ ახალი პაროლი</label>
+                    <input type="password" name="password_confirm" id="password_confirm" minlength="6" placeholder="გაიმეორეთ ახალი პაროლი">
                 </div>
                 <button type="submit" class="custom-button">განაახლე პროფილი</button>
             </form>

@@ -1,74 +1,39 @@
 <?php
 include "../db/connect.php";
 
-$post_stats_query = $connect->query("SELECT navs.name AS category_name, COUNT(posts.id) AS post_count FROM navs LEFT JOIN posts ON posts.navs_id = navs.id GROUP BY navs.id");
-
-$post_stats = $post_stats_query->fetch_all(MYSQLI_ASSOC);
-
-$categories = [];
-$post_counts = [];
-foreach ($post_stats as $stat) {
-    $categories[] = $stat['category_name'];
-    $post_counts[] = $stat['post_count'];
-}
-
+$post_count = mysqli_fetch_assoc($connect->query("SELECT COUNT(*) AS total FROM posts"));
+$category_count = mysqli_fetch_assoc($connect->query("SELECT COUNT(*) AS total FROM navs"));
+$next_post = mysqli_fetch_assoc($connect->query("SELECT name, event_date, id FROM posts WHERE event_date >= NOW() ORDER BY event_date ASC LIMIT 1"));
 ?>
-<div class="dashboard">
+
+<div class="admin-page-heading">
     <div>
-        <h2>სტატისტიკა</h2>
-        <canvas id="postsChart"></canvas>
+        <p>TW ადმინისტრირება</p>
+        <h1>მთავარი</h1>
     </div>
+    <a class="primary-admin-button" href="?post_before">ღონისძიების დამატება</a>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    const categories = <?= json_encode($categories); ?>;
-    const postCounts = <?= json_encode($post_counts); ?>;
-
-    console.log('Categories:', categories);
-    console.log('Post Counts:', postCounts);
-
-    const ctx = document.getElementById('postsChart').getContext('2d');
-    const postsChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: categories,
-            datasets: [{
-                label: 'პოსტების რაოდენობა',
-                data: postCounts,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'top'
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-    
-</script>
+<div class="dashboard-stats">
+    <div class="stat-card">
+        <span>ღონისძიებები</span>
+        <strong><?=$post_count['total']?></strong>
+        <a href="?post_before">მართვა →</a>
+    </div>
+    <div class="stat-card">
+        <span>კატეგორიები</span>
+        <strong><?=$category_count['total']?></strong>
+        <a href="?navs">მართვა →</a>
+    </div>
+    <div class="stat-card next-event-card">
+        <span>უახლოესი ღონისძიება</span>
+        <?php if (!empty($next_post)): ?>
+            <strong><?=$next_post['name']?></strong>
+            <small><?=date('d.m.Y · H:i', strtotime($next_post['event_date']))?></small>
+            <a href="?post_details=<?=$next_post['id']?>">ნახვა →</a>
+        <?php else: ?>
+            <strong>ჯერ არ არის</strong>
+            <a href="?post_before">დამატება →</a>
+        <?php endif; ?>
+    </div>
+</div>

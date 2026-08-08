@@ -1,84 +1,55 @@
-# Ambioni - Custom PHP CMS & Blog
+# TW — Tech World
 
-A custom-built Content Management System (CMS) and blogging platform developed with core PHP and MySQL. This project provides a fully functional dynamic website with a dedicated admin panel for content management, user authentication, and interactive features.
+TW is a small Georgian website for discovering hackathons and selected technology events. It is built with core PHP, MySQL, HTML, CSS, and a small amount of JavaScript.
 
-## 🚀 Features
+## Main functionality
 
-### Front-End (Public Website)
-- **Dynamic Content:** Fetches articles, news, and categories directly from the database.
-- **User Authentication:** Secure registration and login system.
-- **Commenting System:** Authenticated users can leave comments on posts.
-- **Contact/Messaging:** Visitors can send direct messages via a built-in contact form.
-- **Responsive Navigation:** Dynamic menus generated from the database categories.
+### Website
 
-### Back-End (Admin Dashboard)
-- **Post Management:** Create, edit, and delete articles/posts (with image and video support).
-- **Category (Navs) Management:** Add or modify website navigation categories.
-- **Comment Moderation:** View and manage user comments.
-- **User Management:** Oversee registered users and assign admin privileges.
-- **Message Inbox:** Read messages sent by visitors through the contact form.
-- **Ads Management:** Manage promotional banners and links (Reklama).
+- Upcoming event cards
+- Three event categories: hackathons, conferences, and workshops
+- Event detail pages with date, location, organizer, description, deadline, and registration link
+- User registration, login, and profile editing
+- Responsive layout
 
-## 🛠️ Technologies Used
-- **Backend:** PHP 8+ (Core/Vanilla PHP)
-- **Database:** MySQL / MariaDB
-- **Frontend:** HTML5, CSS3, JavaScript
-- **Server Environment:** Apache / Nginx (XAMPP/MAMP compatible)
+### Admin panel
 
-## ⚙️ Installation & Setup
+- Add, edit, view, and delete events
+- Select an event category
+- Add, edit, and delete empty categories
+- Simple event and category overview
 
-Follow these instructions to run the project locally.
+## Local setup
 
-1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/TengoKldiashvili/first-php-project.git](https://github.com/TengoKldiashvili/first-php-project.git)
-   cd first-php-project
-Database Setup:
+1. Place the project inside your local server document root.
+2. Create a MySQL database named `ambioni`.
+3. Import [`db/ambioni.sql`](db/ambioni.sql).
+4. Create `db/connect.php` with your local database details:
 
-Create a new MySQL database named ambioni.
-
-Import the provided database schema: Navigate to the db/ folder and import ambioni.sql into your newly created database.
-
-Database Configuration:
-
-Create a new file named connect.php inside the db/ directory (or rename connect.example.php if available).
-
-Add your local database credentials:
-
-PHP
+```php
 <?php
 $server = "localhost";
-$user = "root"; // Your MySQL username
-$password = ""; // Your MySQL password
-$database = "ambioni"; 
+$user = "root";
+$password = "";
+$database = "ambioni";
 
 $connect = mysqli_connect($server, $user, $password, $database);
-if (!$connect) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+mysqli_set_charset($connect, "utf8");
 ?>
-Run the Application:
+```
 
-Place the project folder in your local server's document root (e.g., htdocs for XAMPP).
+5. Open the project through your local PHP server.
 
-Open your browser and navigate to http://localhost/first-php-project/.
+## Test administrator
 
-🔐 Default Admin Credentials
-To access the /admin dashboard for testing purposes, use the following credentials (provided in the SQL dump):
+- Email: `admin@example.com`
+- Password: `admin`
 
-Email: admin@example.com
+After signing in, use the profile menu to open the admin panel.
 
-Password: admin
+## Project structure
 
-(Note: Please change these credentials in a production environment and ensure sensitive files like connect.php are added to .gitignore)
-
-📂 Project Structure
-/admin - Backend dashboard files and styles.
-
-/db - Database connection scripts and SQL schema dumps.
-
-/src - Frontend logic, assets (images, CSS), and functional components (login, comments, etc.).
-
-index.php - Main entry point of the website.
-
-Developed by Tlab
+- `index.php` — public page loading
+- `src/` — public PHP pages, styles, and images
+- `admin/` — event and category administration
+- `db/ambioni.sql` — database schema and sample events

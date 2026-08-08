@@ -6,71 +6,139 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['post_name'], $_POST['p
     $post_small_description = $_POST['post_small_description'] ?? '';
     $post_image = $_POST['post_image'];
     $post_category = $_POST['post_category'];
+    $post_organizer = $_POST['post_organizer'] ?? '';
+    $post_location = $_POST['post_location'] ?? '';
+    $post_event_date = !empty($_POST['post_event_date']) ? "'" . $_POST['post_event_date'] . "'" : "NULL";
+    $post_registration_deadline = !empty($_POST['post_registration_deadline']) ? "'" . $_POST['post_registration_deadline'] . "'" : "NULL";
+    $post_registration_url = $_POST['post_registration_url'] ?? '';
 
     $insert_new_post = $connect->query("
-        INSERT INTO posts (name, navs_id, imgs, description, small_description, count) 
-        VALUES ('$post_name', '$post_category', '$post_image', '$post_description', '$post_small_description', 0)
+        INSERT INTO posts (name, navs_id, imgs, description, small_description, count, organizer, location, event_date, registration_deadline, registration_url)
+        VALUES ('$post_name', '$post_category', '$post_image', '$post_description', '$post_small_description', 0, '$post_organizer', '$post_location', $post_event_date, $post_registration_deadline, '$post_registration_url')
     ");
+
+    if ($insert_new_post) {
+        $post_added = true;
+    }
 }
-$posts_admin = mysqli_fetch_all($connect->query("SELECT name,id,navs_id,imgs,description,small_description FROM posts"), MYSQLI_ASSOC);
+
+$posts_admin = mysqli_fetch_all($connect->query("SELECT posts.name, posts.id, posts.imgs, posts.event_date, posts.location, navs.name AS category_name FROM posts LEFT JOIN navs ON posts.navs_id = navs.id ORDER BY posts.event_date IS NULL, posts.event_date ASC"), MYSQLI_ASSOC);
+$categories = mysqli_fetch_all($connect->query("SELECT id, name FROM navs ORDER BY id"), MYSQLI_ASSOC);
 ?>
 
+<div class="admin-page-heading">
+    <div>
+        <p>კონტენტის მართვა</p>
+        <h1>ღონისძიებები</h1>
+    </div>
+    <button id="add-post-btn" class="primary-admin-button" type="button">ღონისძიების დამატება</button>
+</div>
 
-<button id="add-post-btn" class="add-post-btn">სიახლის დამატება</button>
+<?php if (isset($post_added)): ?>
+    <div class="admin-success-message">ღონისძიება წარმატებით დაემატა.</div>
+<?php endif; ?>
 
 <div id="add-post-modal" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>ახალი პოსტის დამატება</h2>
-        <form action="" method="POST" class="add-post-form">
-            <label for="post_name">პოსტის სახელი</label>
-            <input type="text" id="post_name" name="post_name" required>
-            
-            <label for="post_description">პოსტის სრული აღწერა (სავალდებულოა)</label>
-            <textarea id="post_description" name="post_description" required></textarea>
-            
-            <label for="post_small_description">მოკლე აღწერა</label>
-            <textarea id="post_small_description" name="post_small_description"></textarea>
-            
-            <label for="post_image">სურათის ლინკი (სავალდებულოა)</label>
-            <input type="url" id="post_image" name="post_image" required placeholder="https://example.com/image.jpg">
+        <div class="modal-heading">
+            <div>
+                <p>ახალი ჩანაწერი</p>
+                <h2>ღონისძიების დამატება</h2>
+            </div>
+            <button class="close" type="button" aria-label="დახურვა">&times;</button>
+        </div>
 
-            <label for="post_category">კატეგორია</label>
-            <select id="post_category" name="post_category">
-                <?php
-                $categories = mysqli_fetch_all($connect->query("SELECT id, name FROM navs"), MYSQLI_ASSOC);
-                foreach ($categories as $category) {
-                    echo "<option value='{$category['id']}'>{$category['name']}</option>";
-                }
-                ?>
-            </select>
-            
-            <button type="submit" class="submit-btn">დამატება</button>
+        <form action="?post_before" method="POST" class="admin-form">
+            <div class="form-grid">
+                <div class="form-field form-field-wide">
+                    <label for="post_name">ღონისძიების სახელი</label>
+                    <input type="text" id="post_name" name="post_name" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="post_category">კატეგორია</label>
+                    <select id="post_category" name="post_category" required>
+                        <?php foreach ($categories as $category) { ?>
+                            <option value="<?=$category['id']?>"><?=$category['name']?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label for="post_event_date">ღონისძიების თარიღი</label>
+                    <input type="datetime-local" id="post_event_date" name="post_event_date" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="post_location">ადგილმდებარეობა</label>
+                    <input type="text" id="post_location" name="post_location" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="post_organizer">ორგანიზატორი</label>
+                    <input type="text" id="post_organizer" name="post_organizer">
+                </div>
+
+                <div class="form-field">
+                    <label for="post_registration_deadline">რეგისტრაციის ბოლო ვადა</label>
+                    <input type="datetime-local" id="post_registration_deadline" name="post_registration_deadline">
+                </div>
+
+                <div class="form-field">
+                    <label for="post_registration_url">რეგისტრაციის ბმული</label>
+                    <input type="url" id="post_registration_url" name="post_registration_url" placeholder="https://example.com/register">
+                </div>
+
+                <div class="form-field form-field-wide">
+                    <label for="post_image">სურათის ბმული</label>
+                    <input type="url" id="post_image" name="post_image" required placeholder="https://example.com/image.jpg">
+                </div>
+
+                <div class="form-field form-field-wide">
+                    <label for="post_small_description">მოკლე აღწერა</label>
+                    <textarea id="post_small_description" name="post_small_description" rows="3"></textarea>
+                </div>
+
+                <div class="form-field form-field-wide">
+                    <label for="post_description">სრული აღწერა</label>
+                    <textarea id="post_description" name="post_description" rows="7" required></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="form-submit-btn">დამატება</button>
         </form>
     </div>
 </div>
 
-<div class="posts">
-    <?php foreach($posts_admin as $postdetails): ?>
-        <div class="post">
-            <h2><?=$postdetails['name']?></h2>
-            <p><?=$postdetails['description']?></p>
-            <br>
-            <a href="?post_details=<?=$postdetails['id']?>" class="post_detail">დეტალურად</a>
-        </div>
-    <?php endforeach; ?>
-</div>
+<?php if (empty($posts_admin)): ?>
+    <div class="admin-empty-state">ღონისძიებები ჯერ არ არის დამატებული.</div>
+<?php else: ?>
+    <div class="admin-events-grid">
+        <?php foreach($posts_admin as $postdetails): ?>
+            <article class="admin-event-card">
+                <img src="<?=$postdetails['imgs']?>" alt="">
+                <div>
+                    <span><?=$postdetails['category_name']?></span>
+                    <h2><?=$postdetails['name']?></h2>
+                    <?php if (!empty($postdetails['event_date'])): ?><p><?=date('d.m.Y · H:i', strtotime($postdetails['event_date']))?></p><?php endif; ?>
+                    <?php if (!empty($postdetails['location'])): ?><p><?=$postdetails['location']?></p><?php endif; ?>
+                    <a href="?post_details=<?=$postdetails['id']?>" class="text-button">ღონისძიების ნახვა →</a>
+                </div>
+            </article>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
 
 <script>
     var modal = document.getElementById("add-post-modal");
     var btn = document.getElementById("add-post-btn");
-    var span = document.getElementsByClassName("close")[0];
+    var closeButton = document.getElementsByClassName("close")[0];
 
     btn.onclick = function() {
-        modal.style.display = "block";
+        modal.style.display = "flex";
     }
 
-    span.onclick = function() {
+    closeButton.onclick = function() {
         modal.style.display = "none";
     }
 

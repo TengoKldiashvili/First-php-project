@@ -1,5 +1,4 @@
 <?php
-session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -16,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['username'] = $row['username'];
             $_SESSION['is_admin'] = $row['is_admin']; 
 
-            header("Location: /");
+            header("Location: index.php");
         } else {
             echo "<p class='custom-error-message'>არასწორი პაროლი!</p>";
         }
