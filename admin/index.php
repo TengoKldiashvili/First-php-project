@@ -5,6 +5,29 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
     header("Location: ../index.php?login");
     exit();
 }
+
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['approve_post'])) {
+    if (!isset($_POST['csrf_token']) || !is_string($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        http_response_code(403);
+        exit("არასწორი მოთხოვნა.");
+    }
+
+    $approve_post_id = is_scalar($_POST['approve_post']) ? intval($_POST['approve_post']) : 0;
+    $approve_post = false;
+
+    if ($approve_post_id > 0) {
+        $approve_post = mysqli_query($connect, "UPDATE posts SET is_approved = 1 WHERE id = $approve_post_id AND is_approved = 0");
+    }
+
+    if ($approve_post) {
+        header("Location: ?post_before&approved=true");
+        exit();
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="ka">
@@ -18,7 +41,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
     <header class="admin-header">
         <a class="admin-brand" href="index.php"><strong>TW</strong><span>Tech World <small>ადმინისტრირება</small></span></a>
         <div class="admin-header-actions">
-            <span><?=$_SESSION['username']?></span>
+            <span><?=htmlspecialchars($_SESSION['username'])?></span>
             <a href="../index.php">საიტზე დაბრუნება ↗</a>
         </div>
     </header>

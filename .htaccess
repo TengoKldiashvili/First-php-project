@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /First-php-project/
+
+    RewriteRule ^event/([0-9]+)/?$ index.php?post=$1 [L,QSA]
+    RewriteRule ^category/([0-9]+)/?$ index.php?nav=$1 [L,QSA]
+    RewriteRule ^login/?$ index.php?login [L,QSA]
+    RewriteRule ^register/?$ index.php?register [L,QSA]
+    RewriteRule ^profile/?$ index.php?profile [L,QSA]
+    RewriteRule ^events/?$ index.php?all_events [L,QSA]
+    RewriteRule ^upcoming/?$ index.php?upcoming_events [L,QSA]
+</IfModule>

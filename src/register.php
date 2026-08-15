@@ -1,30 +1,39 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $password_confirm = $_POST['password_confirm'];
+    $email = isset($_POST['email']) && is_string($_POST['email']) ? trim($_POST['email']) : '';
+    $username = isset($_POST['username']) && is_string($_POST['username']) ? trim($_POST['username']) : '';
+    $password = isset($_POST['password']) && is_string($_POST['password']) ? $_POST['password'] : '';
+    $password_confirm = isset($_POST['password_confirm']) && is_string($_POST['password_confirm']) ? $_POST['password_confirm'] : '';
 
-    if ($password !== $password_confirm) {
-        echo "<p class='error-message'>Passwords do not match!</p>";
-        exit();
-    }
-    $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-
-    $sql = "SELECT * FROM users WHERE email='$email' OR username='$username'";
-    $res = mysqli_query($connect, $sql);
-
-    if (mysqli_num_rows($res) > 0) {
-        echo "<p class='error-message'>ესეთი მომხმარებელი არსებობს!</p>";
+    if (!isset($_POST['csrf_token']) || !is_string($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        $register_error = "არასწორი მოთხოვნა.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $register_error = "შეიყვანეთ სწორი ელფოსტა.";
+    } elseif (empty($username)) {
+        $register_error = "სახელი სავალდებულოა.";
+    } elseif (strlen($password) < 6) {
+        $register_error = "პაროლი უნდა შეიცავდეს მინიმუმ 6 სიმბოლოს.";
+    } elseif ($password !== $password_confirm) {
+        $register_error = "პაროლები ერთმანეთს არ ემთხვევა!";
     } else {
-        $sql = "INSERT INTO users (email, username, password) VALUES ('$email', '$username', '$hashed_password')";
-        
-        if (mysqli_query($connect, $sql)) {
-            echo "<p class='success-message'>რეგისტრაცია წარმატებით დასრულდა!</p>";
-            header("Location: ?login"); 
+        $check_user = mysqli_prepare($connect, "SELECT id FROM users WHERE email = ? OR username = ?");
+        mysqli_stmt_bind_param($check_user, "ss", $email, $username);
+        mysqli_stmt_execute($check_user);
+        $res = mysqli_stmt_get_result($check_user);
+
+        if (mysqli_num_rows($res) > 0) {
+            $register_error = "ასეთი მომხმარებელი უკვე არსებობს!";
         } else {
-            header("Location: ?login"); 
-            echo "<p class='error-message'>შეცდომა: " . mysqli_error($connect) . "</p>";
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $insert_user = mysqli_prepare($connect, "INSERT INTO users (email, username, password) VALUES (?, ?, ?)");
+            mysqli_stmt_bind_param($insert_user, "sss", $email, $username, $hashed_password);
+
+            if (mysqli_stmt_execute($insert_user)) {
+                header("Location: /First-php-project/login");
+                exit();
+            } else {
+                $register_error = "რეგისტრაცია ვერ მოხერხდა.";
+            }
         }
     }
 }
@@ -32,7 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="custom-register-container">
         <div class="custom-register-form">
             <h2>ანგარიშის შექმნა</h2>
+            <?php if (isset($register_error)): ?>
+                <p class="error-message"><?=htmlspecialchars($register_error)?></p>
+            <?php endif; ?>
             <form method="POST">
+                <input type="hidden" name="csrf_token" value="<?=htmlspecialchars($_SESSION['csrf_token'])?>">
                 <div class="custom-form-group">
                     <label for="email">ფოსტა</label>
                     <input type="email" name="email" id="email" placeholder="შეიყვანეთ ფოსტა" required>
@@ -52,8 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <button type="submit" class="custom-button">რეგისტრაცია</button>
             </form>
             <div class="custom-login-link">
-                <p>გაქვს ანგარიში? <a href="?login">შესვლა</a></p>
+                <p>გაქვს ანგარიში? <a href="/First-php-project/login">შესვლა</a></p>
             </div>
         </div>
     </div>
-

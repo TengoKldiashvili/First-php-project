@@ -238,6 +238,10 @@ select {
     gap: 9px;
 }
 
+.heading-actions form {
+    display: flex !important;
+}
+
 .dashboard-stats {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -329,6 +333,27 @@ select {
     text-align: center;
 }
 
+.admin-section-heading {
+    margin: 42px 0 18px;
+}
+
+.admin-section-heading p {
+    color: var(--accent);
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.admin-section-heading h2 {
+    margin-top: 4px;
+    font-size: 25px;
+}
+
+.published-events-heading {
+    margin-top: 58px;
+}
+
 .admin-events-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -389,6 +414,20 @@ select {
     color: var(--accent);
     font-size: 11px;
     font-weight: 900;
+}
+
+.pending-event-actions {
+    margin-top: auto;
+    padding-top: 14px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.pending-event-actions .text-button {
+    margin-top: 0;
+    padding-top: 0;
 }
 
 .modal {
@@ -669,6 +708,10 @@ select {
 }
 
 .delete-text-button {
+    padding: 0;
+    border: 0;
+    cursor: pointer;
+    background: transparent;
     color: var(--danger);
     font-size: 10px;
     font-weight: 900;
@@ -790,8 +833,14 @@ select {
         width: 100%;
     }
 
-    .heading-actions a {
+    .heading-actions a,
+    .heading-actions form {
         flex: 1;
+        justify-content: center;
+    }
+
+    .heading-actions form button {
+        width: 100%;
         justify-content: center;
     }
 

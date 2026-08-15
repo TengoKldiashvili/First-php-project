@@ -127,7 +127,7 @@ CREATE TABLE `posts` (
   `small_description` text NOT NULL,
   `description` text NOT NULL,
   `imgs` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `count` int(11) NOT NULL DEFAULT 0,
   `navs_id` int(11) NOT NULL,
   `video` text DEFAULT NULL,
@@ -135,7 +135,8 @@ CREATE TABLE `posts` (
   `registration_deadline` datetime DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
   `registration_url` text DEFAULT NULL,
-  `organizer` varchar(255) DEFAULT NULL
+  `organizer` varchar(255) DEFAULT NULL,
+  `is_approved` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -193,6 +194,21 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `email`, `username`, `password`, `reg_date`, `is_admin`) VALUES
 (1, 'admin@example.com', 'admin', '$2y$12$oJrWK4FmS/0y0I5WXiTRRuiZuGJFh6GCQ0xXwVVvjuTxfpBgqMCJ6', '2025-01-20 00:00:00', 1);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_event_views`
+--
+
+CREATE TABLE `user_event_views` (
+  `id` int(11) NOT NULL,
+  `user_id` int(6) UNSIGNED NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `viewed_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
 --
 -- Indexes for dumped tables
 --
@@ -243,6 +259,13 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `user_event_views`
+--
+ALTER TABLE `user_event_views`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_post` (`user_id`,`post_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -287,6 +310,12 @@ ALTER TABLE `reklama`
 --
 ALTER TABLE `users`
   MODIFY `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `user_event_views`
+--
+ALTER TABLE `user_event_views`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables

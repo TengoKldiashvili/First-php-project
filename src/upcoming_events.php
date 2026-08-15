@@ -1,39 +1,27 @@
 <?php
-if(isset($_GET['nav'])){
-    $posts_id = is_scalar($_GET['nav']) ? intval($_GET['nav']) : 0;
-    $navs_title = mysqli_fetch_assoc($connect->query("SELECT name, navs_description FROM navs WHERE id = $posts_id"));
-
-    if (empty($navs_title)) {
-        include "404error.php";
-        return;
-    }
-
-    $posts = mysqli_fetch_all($connect->query("SELECT name, imgs, id, navs_id, event_date, location, registration_deadline FROM posts WHERE navs_id = $posts_id AND is_approved = 1 ORDER BY event_date IS NULL, event_date ASC"));
-    $current_time = time();
-    $three_days_later = $current_time + (3 * 86400);
-}
+$upcoming_posts = mysqli_fetch_all($connect->query("SELECT posts.name, posts.imgs, posts.id, posts.event_date, posts.location, navs.name, posts.registration_deadline FROM posts LEFT JOIN navs ON posts.navs_id = navs.id WHERE posts.is_approved = 1 AND posts.event_date IS NOT NULL AND posts.event_date >= NOW() ORDER BY posts.event_date ASC"));
+$current_time = time();
+$three_days_later = $current_time + (3 * 86400);
 ?>
 
 <section class="page-heading">
     <a class="back-link-small" href="/First-php-project/">← მთავარი გვერდი</a>
-    <p>ღონისძიებების კატეგორია</p>
-    <h1><?=htmlspecialchars($navs_title['name'])?></h1>
-    <?php if (!empty($navs_title['navs_description'])): ?>
-        <span><?=htmlspecialchars($navs_title['navs_description'])?></span>
-    <?php endif; ?>
+    <p>ღონისძიებების კალენდარი</p>
+    <h1>უახლოესი ღონისძიებები</h1>
+    <span>ყველა დაგეგმილი ღონისძიება უახლოესი თარიღის მიხედვით.</span>
 </section>
 
 <section class="category-events">
-    <?php if (empty($posts)): ?>
+    <?php if (empty($upcoming_posts)): ?>
         <div class="empty-state">
-            <strong>ამ კატეგორიაში ღონისძიება ჯერ არ არის</strong>
+            <strong>უახლოესი ღონისძიებები ჯერ არ არის</strong>
             <p>ახალი ღონისძიებები მალე დაემატება.</p>
         </div>
     <?php else: ?>
         <div class="event-grid">
-            <?php foreach($posts as $post){
+            <?php foreach($upcoming_posts as $post){
                 $event_status = '';
-                $event_time = !empty($post[4]) ? strtotime($post[4]) : 0;
+                $event_time = strtotime($post[3]);
                 $deadline_time = !empty($post[6]) ? strtotime($post[6]) : 0;
 
                 if (!empty($event_time) && $event_time < $current_time) {
@@ -54,17 +42,15 @@ if(isset($_GET['nav'])){
                     </a>
                     <div class="event-card-body">
                         <div class="event-card-topline">
-                            <span class="category-label"><?=htmlspecialchars($navs_title['name'])?></span>
-                            <?php if (!empty($post[4])): ?>
-                                <time><?=date('d.m.Y · H:i', strtotime($post[4]))?></time>
-                            <?php endif; ?>
+                            <span class="category-label"><?=htmlspecialchars($post[5])?></span>
+                            <time><?=date('d.m.Y · H:i', $event_time)?></time>
                         </div>
                         <?php if (!empty($event_status)): ?>
                             <span class="category-label event-status"><?=$event_status?></span>
                         <?php endif; ?>
                         <h3><a href="/First-php-project/event/<?=intval($post[2])?>"><?=htmlspecialchars($post[0])?></a></h3>
-                        <?php if (!empty($post[5])): ?>
-                            <p class="card-location"><?=htmlspecialchars($post[5])?></p>
+                        <?php if (!empty($post[4])): ?>
+                            <p class="card-location"><?=htmlspecialchars($post[4])?></p>
                         <?php endif; ?>
                         <a class="event-card-link" href="/First-php-project/event/<?=intval($post[2])?>">ღონისძიების ნახვა <span>→</span></a>
                     </div>
