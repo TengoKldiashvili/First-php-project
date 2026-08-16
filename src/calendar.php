@@ -5,7 +5,7 @@ $calendar_event = mysqli_fetch_assoc($connect->query("SELECT id, name, descripti
 
 if (empty($calendar_event) || empty($calendar_event['event_date'])) {
     ob_clean();
-    header("Location: /First-php-project/");
+    header("Location: /tech-world/");
     exit();
 }
 

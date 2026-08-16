@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['username'] = $row['username'];
                 $_SESSION['is_admin'] = $row['is_admin'];
 
-                header("Location: /First-php-project/");
+                header("Location: /tech-world/");
                 exit();
             } else {
                 $login_error = "ფოსტა ან პაროლი არასწორია!";
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <button type="submit" class="custom-button">შესვლა</button>
             </form>
             <div class="custom-register-link">
-                <p>არ გაქვთ ანგარიში? <a href="/First-php-project/register">რეგისტრაცია</a></p>
+                <p>არ გაქვთ ანგარიში? <a href="/tech-world/register">რეგისტრაცია</a></p>
             </div>
         </div>
     </div>

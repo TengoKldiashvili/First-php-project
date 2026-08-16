@@ -8,7 +8,7 @@ if (isset($_GET['logout'])) {
     }
 
     session_destroy();
-header("Location: /First-php-project/");
+header("Location: /tech-world/");
     exit();
 }
 ?>

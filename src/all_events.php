@@ -5,7 +5,7 @@ $three_days_later = $current_time + (3 * 86400);
 ?>
 
 <section class="page-heading">
-    <a class="back-link-small" href="/First-php-project/">← მთავარი გვერდი</a>
+    <a class="back-link-small" href="/tech-world/">← მთავარი გვერდი</a>
     <p>TW — Tech World</p>
     <h1>ღონისძიებები</h1>
     <span>ყველა ღონისძიება საიტზე დამატების დროის მიხედვით.</span>
@@ -37,7 +37,7 @@ $three_days_later = $current_time + (3 * 86400);
                 }
             ?>
                 <article class="event-card">
-                    <a class="event-card-image" href="/First-php-project/event/<?=intval($post[2])?>">
+                    <a class="event-card-image" href="/tech-world/event/<?=intval($post[2])?>">
                         <img src="<?=htmlspecialchars($post[1])?>" alt="<?=htmlspecialchars($post[0])?>">
                     </a>
                     <div class="event-card-body">
@@ -50,11 +50,11 @@ $three_days_later = $current_time + (3 * 86400);
                         <?php if (!empty($event_status)): ?>
                             <span class="category-label event-status"><?=$event_status?></span>
                         <?php endif; ?>
-                        <h3><a href="/First-php-project/event/<?=intval($post[2])?>"><?=htmlspecialchars($post[0])?></a></h3>
+                        <h3><a href="/tech-world/event/<?=intval($post[2])?>"><?=htmlspecialchars($post[0])?></a></h3>
                         <?php if (!empty($post[4])): ?>
                             <p class="card-location"><?=htmlspecialchars($post[4])?></p>
                         <?php endif; ?>
-                        <a class="event-card-link" href="/First-php-project/event/<?=intval($post[2])?>">ღონისძიების ნახვა <span>→</span></a>
+                        <a class="event-card-link" href="/tech-world/event/<?=intval($post[2])?>">ღონისძიების ნახვა <span>→</span></a>
                     </div>
                 </article>
             <?php } ?>

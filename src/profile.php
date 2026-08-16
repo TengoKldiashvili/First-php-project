@@ -1,6 +1,6 @@
 <?php
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /First-php-project/login");
+    header("Location: /tech-world/login");
     exit();
 }
 
@@ -14,7 +14,7 @@ $user = mysqli_fetch_assoc($res);
 if (empty($user)) {
     session_unset();
     session_destroy();
-    header("Location: /First-php-project/login");
+    header("Location: /tech-world/login");
     exit();
 }
 

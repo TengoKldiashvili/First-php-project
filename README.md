@@ -22,16 +22,16 @@ TW is a small Georgian website for discovering hackathons and selected technolog
 ## Local setup
 
 1. Place the project inside your local server document root.
-2. Create a MySQL database named `ambioni`.
-3. Import [`db/ambioni.sql`](db/ambioni.sql).
+2. Create a MySQL database named `tech_world`.
+3. Import [`db/tech_world.sql`](db/tech_world.sql).
 4. Create `db/connect.php` with your local database details:
 
 ```php
-<?php
+```php
 $server = "localhost";
 $user = "root";
 $password = "";
-$database = "ambioni";
+$database = "tech_world";
 
 $connect = mysqli_connect($server, $user, $password, $database);
 mysqli_set_charset($connect, "utf8");
@@ -42,10 +42,15 @@ mysqli_set_charset($connect, "utf8");
 
 ## Test administrator
 
-- Email: `admin@example.com`
-- Password: `admin`
+- Email: `admin@tlaab.com`
 
-After signing in, use the profile menu to open the admin panel.
+The repository does not contain the admin plaintext password. After importing `db/tech_world.sql`, run the included CLI helper to set the admin password locally (it uses `password_hash`):
+
+```bash
+php db/set_admin_password.php admintlaab admin@tlaab.com
+```
+
+This script must be run locally on your machine (not committed with plaintext credentials).
 
 ## Project structure
 

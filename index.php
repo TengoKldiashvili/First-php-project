@@ -17,7 +17,7 @@ if (empty($_SESSION['csrf_token'])) {
 }
 
 if (isset($_GET['submit_event']) && !isset($_SESSION['user_id'])) {
-    header("Location: /First-php-project/login");
+    header("Location: /tech-world/login");
     exit();
 }
 ?>
@@ -28,13 +28,13 @@ if (isset($_GET['submit_event']) && !isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="TW — Tech World: ჰაკათონები, კონფერენციები და ტექნოლოგიური ვორქშოფები საქართველოში.">
     <title>TW — Tech World</title>
-    <base href="/First-php-project/">
+    <base href="/tech-world/">
     <link rel="stylesheet" href="src/style.css">
 </head>
 <body>
 <header class="site-header">
     <div class="site-header-inner">
-        <a class="brand-logo" href="/First-php-project/" aria-label="Tech World მთავარი გვერდი">
+            <a class="brand-logo" href="/tech-world/" aria-label="Tech World მთავარი გვერდი">
             <strong>TW</strong>
             <span>Tech World<small>ტექნოლოგიური ღონისძიებები</small></span>
         </a>
@@ -49,7 +49,7 @@ if (isset($_GET['submit_event']) && !isset($_SESSION['user_id'])) {
                 </button>
                 <div class="account-dropdown">
                     <a href="?submit_event">ღონისძიების დამატება</a>
-                    <a href="/First-php-project/profile">პროფილი</a>
+                    <a href="/tech-world/profile">პროფილი</a>
                     <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1): ?>
                         <a href="admin/index.php">ადმინისტრირება</a>
                     <?php endif; ?>
@@ -57,7 +57,7 @@ if (isset($_GET['submit_event']) && !isset($_SESSION['user_id'])) {
                 </div>
             </div>
         <?php else: ?>
-            <a class="login-link" href="/First-php-project/login">შესვლა</a>
+            <a class="login-link" href="/tech-world/login">შესვლა</a>
         <?php endif; ?>
     </div>
 </header>
@@ -90,7 +90,7 @@ if (isset($_GET['login'])) {
 
 <footer class="site-footer">
     <div class="site-footer-inner">
-        <a class="footer-brand" href="/First-php-project/"><strong>TW</strong><span>Tech World</span></a>
+        <a class="footer-brand" href="/tech-world/"><strong>TW</strong><span>Tech World</span></a>
         <p>ჰაკათონები და მნიშვნელოვანი Tech ღონისძიებები საქართველოში.</p>
         <span class="footer-copy"><?=date('Y')?> © Tech World</span>
     </div>

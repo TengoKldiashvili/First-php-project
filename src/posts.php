@@ -15,7 +15,7 @@ if(isset($_GET['nav'])){
 ?>
 
 <section class="page-heading">
-    <a class="back-link-small" href="/First-php-project/">← მთავარი გვერდი</a>
+    <a class="back-link-small" href="/tech-world/">← მთავარი გვერდი</a>
     <p>ღონისძიებების კატეგორია</p>
     <h1><?=htmlspecialchars($navs_title['name'])?></h1>
     <?php if (!empty($navs_title['navs_description'])): ?>
@@ -49,7 +49,7 @@ if(isset($_GET['nav'])){
                 }
             ?>
                 <article class="event-card">
-                    <a class="event-card-image" href="/First-php-project/event/<?=intval($post[2])?>">
+                    <a class="event-card-image" href="/tech-world/event/<?=intval($post[2])?>">
                         <img src="<?=htmlspecialchars($post[1])?>" alt="<?=htmlspecialchars($post[0])?>">
                     </a>
                     <div class="event-card-body">
@@ -62,11 +62,11 @@ if(isset($_GET['nav'])){
                         <?php if (!empty($event_status)): ?>
                             <span class="category-label event-status"><?=$event_status?></span>
                         <?php endif; ?>
-                        <h3><a href="/First-php-project/event/<?=intval($post[2])?>"><?=htmlspecialchars($post[0])?></a></h3>
+                        <h3><a href="/tech-world/event/<?=intval($post[2])?>"><?=htmlspecialchars($post[0])?></a></h3>
                         <?php if (!empty($post[5])): ?>
                             <p class="card-location"><?=htmlspecialchars($post[5])?></p>
                         <?php endif; ?>
-                        <a class="event-card-link" href="/First-php-project/event/<?=intval($post[2])?>">ღონისძიების ნახვა <span>→</span></a>
+                        <a class="event-card-link" href="/tech-world/event/<?=intval($post[2])?>">ღონისძიების ნახვა <span>→</span></a>
                     </div>
                 </article>
             <?php } ?>

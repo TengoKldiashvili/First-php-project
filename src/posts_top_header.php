@@ -95,7 +95,7 @@ if (isset($_SESSION['user_id'])) {
             <p>ღონისძიებების კალენდარი</p>
             <h2>უახლოესი ღონისძიებები</h2>
         </div>
-        <a class="view-all-link" href="/First-php-project/upcoming">ყველას ნახვა →</a>
+        <a class="view-all-link" href="/tech-world/upcoming">ყველას ნახვა →</a>
     </div>
 
     <?php if (empty($upcoming_posts)): ?>
@@ -129,7 +129,7 @@ if (isset($_SESSION['user_id'])) {
                         <small><?=date('H:i', $event_time)?></small>
                     </time>
                     <div class="upcoming-event-copy">
-                        <h3><a href="/First-php-project/event/<?=intval($post[2])?>"><?=htmlspecialchars($post[0])?></a></h3>
+                        <h3><a href="/tech-world/event/<?=intval($post[2])?>"><?=htmlspecialchars($post[0])?></a></h3>
                         <div class="upcoming-event-meta">
                             <span class="category-label"><?=htmlspecialchars($post[5])?></span>
                             <?php if (!empty($post[4])): ?>
@@ -140,7 +140,7 @@ if (isset($_SESSION['user_id'])) {
                             <span class="category-label event-status"><?=$event_status?></span>
                         <?php endif; ?>
                     </div>
-                    <a class="upcoming-event-arrow" href="/First-php-project/event/<?=intval($post[2])?>" aria-label="<?=htmlspecialchars($post[0])?> — ღონისძიების ნახვა">→</a>
+                        <a class="upcoming-event-arrow" href="/tech-world/event/<?=intval($post[2])?>" aria-label="<?=htmlspecialchars($post[0])?> — ღონისძიების ნახვა">→</a>
                 </article>
             <?php } ?>
         </div>
@@ -160,7 +160,7 @@ if (isset($_SESSION['user_id'])) {
         <div class="recommended-events-grid">
             <?php foreach($recommended_events as $recommended_event): ?>
                 <article class="recommended-event-card">
-                    <a class="recommended-event-image" href="/First-php-project/event/<?=intval($recommended_event['id'])?>">
+                    <a class="recommended-event-image" href="/tech-world/event/<?=intval($recommended_event['id'])?>">
                         <img src="<?=htmlspecialchars($recommended_event['imgs'])?>" alt="<?=htmlspecialchars($recommended_event['name'])?>">
                     </a>
                     <div class="recommended-event-body">
@@ -169,11 +169,11 @@ if (isset($_SESSION['user_id'])) {
                             <span><?=htmlspecialchars($recommended_event['category_name'])?></span>
                             <time><?=date('d.m.Y · H:i', strtotime($recommended_event['event_date']))?></time>
                         </div>
-                        <h3><a href="/First-php-project/event/<?=intval($recommended_event['id'])?>"><?=htmlspecialchars($recommended_event['name'])?></a></h3>
+                        <h3><a href="/tech-world/event/<?=intval($recommended_event['id'])?>"><?=htmlspecialchars($recommended_event['name'])?></a></h3>
                         <?php if (!empty($recommended_event['location'])): ?>
                             <p class="recommended-event-location"><?=htmlspecialchars($recommended_event['location'])?></p>
                         <?php endif; ?>
-                        <a class="recommended-event-link" href="/First-php-project/event/<?=intval($recommended_event['id'])?>">ღონისძიების ნახვა <span>→</span></a>
+                        <a class="recommended-event-link" href="/tech-world/event/<?=intval($recommended_event['id'])?>">ღონისძიების ნახვა <span>→</span></a>
                     </div>
                 </article>
             <?php endforeach; ?>
@@ -187,7 +187,7 @@ if (isset($_SESSION['user_id'])) {
             <p>ბოლოს დამატებული</p>
             <h2>ღონისძიებები</h2>
         </div>
-        <a class="view-all-link" href="/First-php-project/events">ყველას ნახვა →</a>
+        <a class="view-all-link" href="/tech-world/events">ყველას ნახვა →</a>
     </div>
 
     <?php if (empty($latest_posts)): ?>
@@ -215,7 +215,7 @@ if (isset($_SESSION['user_id'])) {
                 }
             ?>
                 <article class="event-card general-event-card">
-                    <a class="event-card-image" href="/First-php-project/event/<?=intval($post[2])?>">
+                    <a class="event-card-image" href="/tech-world/event/<?=intval($post[2])?>">
                         <img src="<?=htmlspecialchars($post[1])?>" alt="<?=htmlspecialchars($post[0])?>">
                     </a>
                     <div class="event-card-body">
@@ -228,11 +228,11 @@ if (isset($_SESSION['user_id'])) {
                         <?php if (!empty($event_status)): ?>
                             <span class="category-label event-status"><?=$event_status?></span>
                         <?php endif; ?>
-                        <h3><a href="/First-php-project/event/<?=intval($post[2])?>"><?=htmlspecialchars($post[0])?></a></h3>
+                        <h3><a href="/tech-world/event/<?=intval($post[2])?>"><?=htmlspecialchars($post[0])?></a></h3>
                         <?php if (!empty($post[4])): ?>
                             <p class="card-location"><?=htmlspecialchars($post[4])?></p>
                         <?php endif; ?>
-                        <a class="event-card-link" href="/First-php-project/event/<?=intval($post[2])?>">ღონისძიების ნახვა <span>→</span></a>
+                        <a class="event-card-link" href="/tech-world/event/<?=intval($post[2])?>">ღონისძიების ნახვა <span>→</span></a>
                     </div>
                 </article>
             <?php } ?>

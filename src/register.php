@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             mysqli_stmt_bind_param($insert_user, "sss", $email, $username, $hashed_password);
 
             if (mysqli_stmt_execute($insert_user)) {
-                header("Location: /First-php-project/login");
+                header("Location: /tech-world/login");
                 exit();
             } else {
                 $register_error = "რეგისტრაცია ვერ მოხერხდა.";
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <button type="submit" class="custom-button">რეგისტრაცია</button>
             </form>
             <div class="custom-login-link">
-                <p>გაქვს ანგარიში? <a href="/First-php-project/login">შესვლა</a></p>
+                <p>გაქვს ანგარიში? <a href="/tech-world/login">შესვლა</a></p>
             </div>
         </div>
     </div>

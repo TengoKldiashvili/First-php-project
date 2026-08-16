@@ -4,7 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /First-php-project/login");
+    header("Location: /tech-world/login");
     exit();
 }
 

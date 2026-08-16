@@ -43,7 +43,7 @@ if (isset($_GET['post'])) {
 
 <article class="event-page">
     <div class="event-page-heading">
-        <a class="back-link-small" href="/First-php-project/category/<?=intval($nav['id'])?>">← <?=htmlspecialchars($nav['name'])?></a>
+        <a class="back-link-small" href="/tech-world/category/<?=intval($nav['id'])?>">← <?=htmlspecialchars($nav['name'])?></a>
         <div class="event-page-labels">
             <span class="category-label"><?=htmlspecialchars($nav['name'])?></span>
             <?php if (!empty($event_status)): ?>

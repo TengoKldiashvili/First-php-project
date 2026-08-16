@@ -1,6 +1,6 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /First-php-project/
+    RewriteBase /tech-world/
 
     RewriteRule ^event/([0-9]+)/?$ index.php?post=$1 [L,QSA]
     RewriteRule ^category/([0-9]+)/?$ index.php?nav=$1 [L,QSA]
